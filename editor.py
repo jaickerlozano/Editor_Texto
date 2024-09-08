@@ -35,6 +35,8 @@ def abrir():
         texto.insert("insert", contenido) # Inserta el contenido del fichero
         fichero.close() # Cierra el fichero
         root.title(ruta + "- Editor de texto") # Cambia el titlo de la ventana
+    else: 
+        guardar_como()
 
 def guardar(): 
     lower_text.set("Guardar fichero")
@@ -49,7 +51,23 @@ def guardar():
         lower_text.set("Guardado correctamente") # Modificamos el mensaje del pie
 
 def guardar_como():
-    lower_text.set("Guardar como)")
+    lower_text.set("Guardar como")
+    
+    global ruta
+
+    fichero = FileDialog.asksaveasfile(title="Guardar como", mode="w", defaultextension=".txt") 
+    ruta = fichero.name #la ruta donde se guardara el fichero
+
+    if fichero is not None: 
+        contenido = texto.get(1.0, "end") # Capturamos el texto
+        fichero = open(ruta, 'w+') # creamos el fichero
+        fichero.write(contenido) # Escribir texto en el fichero
+        fichero.close() # Cerrar el fichero
+        lower_text.set("Archivo guardado correctamente") # Modificamos el mensaje del pie
+    else: 
+        lower_text.set("Guardado cancelado")
+
+
 
 def open_readme(): 
     ''' Funcion para abrir el fichero readme en  una ventana nueva'''
@@ -65,7 +83,13 @@ def open_readme():
     
     emergente.mainloop()
 
+def bind_guardar(arg):
+    global ruta
 
+    if ruta != "": 
+        guardar()
+    else:
+        guardar_como()
 # Interfaz de usuario
 ## Ventana principal
 
@@ -81,13 +105,18 @@ menubar.add_cascade(label="Archivo", menu=archive)
 archive.add_command(label="Nuevo", command=nuevo)
 archive.add_command(label="Abrir", command=abrir)
 archive.add_command(label="Guardar", command= guardar)
-archive.add_command(label="Guardar Como")
-archive.add_command(label="Cerrar")
+archive.add_command(label="Guardar Como", command=guardar_como)
+archive.add_command(label="Cerrar", command=exit)
 
 
 help = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Ayuda", menu=help)
 help.add_command(label = "Acerca de...", command=open_readme)
+
+## Bindeo de teclas
+
+#root.bind_class("Text", "<Control-s>", lambda ruta: guardar())
+root.bind_class("Text", "<Control-s>", bind_guardar)
 
 ## Ventana de texto
 
@@ -100,9 +129,6 @@ lower_text = StringVar()
 lower_text.set("Bienvenido al editor de texto")
 lower_info = Label(root, textvariable=lower_text, justify="right")
 lower_info.pack(side="left")
-
-
-# Enlazar funciones con los botones del menu
 
 
 
