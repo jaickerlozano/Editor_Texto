@@ -74,6 +74,7 @@ def open_readme():
     global ruta
 
     emergente = Tk()
+    emergente.title("Acerca de...")
     readme = Text(emergente)
     readme.pack(fill="both", expand=1)
     readme.config(padx=6, pady=4, bd=0, font=("Consolas", 12))
