@@ -39,11 +39,22 @@ def abrir():
 def guardar(): 
     lower_text.set("Guardar fichero")
 
+    global ruta
+
+    if ruta != "": 
+        contenido = texto.get(1.0, "end") # Capturamos el texto
+        fichero = open(ruta, "w+") # Creamos o abrimos el fichero
+        fichero.write(contenido) # Escribir texto en el fichero
+        fichero.close() # Cerrar el fichero
+        lower_text.set("Guardado correctamente") # Modificamos el mensaje del pie
+
 def guardar_como():
     lower_text.set("Guardar como)")
 
 def open_readme(): 
+    ''' Funcion para abrir el fichero readme en  una ventana nueva'''
     global ruta
+
     emergente = Tk()
     readme = Text(emergente)
     readme.pack(fill="both", expand=1)
@@ -52,22 +63,8 @@ def open_readme():
     readme.insert("insert", file.read())
     file.close()
     
-    
-
     emergente.mainloop()
 
-
-'''
-def open_readme(): 
-    lower_text.set("Abrir fichero README.md")
-    file = "README.md"
-    fichero = open(file, "r")
-    contenido =  
-    texto.delete(1.0, END) # Nos aseguramos de que el contenido que tenemos actualmente este en blanco
-    texto.insert("insert", contenido) # Inserta el contenido del fichero
-    fichero.close() # Cierra el fichero
-    root.title("README.md" + "- Editor de texto") # Cambia el titlo de la ventana
-'''
 
 # Interfaz de usuario
 ## Ventana principal
