@@ -1,18 +1,37 @@
 import tkinter as tk
 from tkinter import filedialog # Para el manejo de archivos
 
+
+
+
+
 # Interfaz de usuario
+## Ventana principal
 
-ventana_editor = tk.Tk()
-ventana_editor.title("Editor de texto")
-ventana_editor.config(background="Black", width=600, height=600)
+root = tk.Tk()
+root.title("Editor de texto")
 
-entrada_editor = tk.Text(ventana_editor, wrap="word", undo=True)
-entrada_editor.pack(expand=1, fill="both"   )
+## Barra de menú
 
+menubar = tk.Menu(root)
+root.config(menu=menubar)
+archive = tk.Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Archivo", menu=archive)
+archive.add_command(label="Nuevo")
+archive.add_command(label="Abrir")
+archive.add_command(label="Guardar")
+archive.add_command(label="Cerrar")
 
+help = tk.Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Ayuda", menu=help)
+help.add_command(label = "Acerca de...")
 
+#Ventana de texto
+
+texto = tk.Text(root)
+texto.pack(fill="both", expand=1)
+texto.config(padx=6, pady=4, bd=0, font=("Consolas", 12))
 
 
 # Bucle Principal
-ventana_editor.mainloop()
+root.mainloop()
