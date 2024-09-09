@@ -91,6 +91,8 @@ def bind_guardar(arg):
         guardar()
     else:
         guardar_como()
+
+        
 # Interfaz de usuario
 ## Ventana principal
 
